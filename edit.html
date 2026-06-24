@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0f19">
   <title>DANARI Digital Card Creator</title>
 
@@ -108,7 +108,12 @@
 
     /* Overriding Card margin inside preview so it fits nicely */
     .preview-container .card-container {
-      margin: 0;
+      margin: 0 auto;
+      width: 100% !important;
+      max-width: 440px !important;
+      min-height: auto !important; /* Prevent 100vh stretch on mobile */
+      border-radius: 28px !important;
+      border: 1px solid var(--card-border) !important;
       box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 30px rgba(6, 182, 212, 0.1);
       pointer-events: none; /* Make card non-interactive in preview */
     }
@@ -169,7 +174,29 @@
       }
       .preview-container {
         position: static;
-        order: -1; /* Show preview on top on mobile */
+        order: 1; /* Show preview below form on mobile so form is visible first */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      .form-container {
+        padding: 20px 15px;
+        border-radius: 16px;
+      }
+      .form-grid {
+        grid-template-columns: 1fr; /* Stack inputs vertically on mobile */
+        gap: 12px;
+      }
+      .form-full, .form-grid > * {
+        grid-column: span 1 !important; /* Make all fields span full width of the 1-column grid */
       }
     }
   </style>

@@ -1188,4 +1188,9 @@ a.info-value:hover {
   .project-grid {
     grid-template-columns: 1fr;
   }
+
+  /* Increase input font size to 16px to prevent auto-zoom jumping and improve readability on mobile */
+  .form-group input {
+    font-size: 16px !important;
+  }
 }
