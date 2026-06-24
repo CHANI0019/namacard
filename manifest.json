@@ -1,0 +1,18 @@
+{
+  "name": "DANARI Digital Business Card",
+  "short_name": "DANARI Card",
+  "description": "DANARI Founder & CEO 정찬희의 PWA 디지털 명함. AI 기반 주식 정보 제공 플랫폼 다나리.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#070a13",
+  "theme_color": "#070a13",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

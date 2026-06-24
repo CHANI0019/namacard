@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="description" content="DANARI Founder & CEO 홍길동의 PWA 디지털 명함. 부동산 기반 디지털 자산 및 스테이블코인 생태계 구축.">
+  
+  <!-- OpenGraph Metadata -->
+  <meta property="og:title" content="DANARI Digital Card - 홍길동">
+  <meta property="og:description" content="Founder & CEO | 부동산 기반 디지털 자산 및 스테이블코인 생태계">
+  <meta property="og:image" content="profile.svg">
+  <meta property="og:type" content="website">
+  
+  <title>DANARI Digital Card - 정찬희</title>
+
+  <!-- PWA Manifest & App Support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DANARI Card">
+  <link rel="apple-touch-icon" href="icon.svg">
+
+  <!-- Google Fonts: Outfit & Pretendard CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Decorative Blurs -->
+  <div class="glow-bg-1"></div>
+  <div class="glow-bg-2"></div>
+
+  <!-- Main Card Container -->
+  <div class="card-container">
+    
+    <!-- Top Bar with PWA Install, Language Switcher, Stats & Video Triggers -->
+    <div class="top-bar">
+      <div class="lang-selector">
+        <button class="lang-btn active" data-lang="ko">KO</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="zh">ZH</button>
+      </div>
+      <div class="top-actions">
+        <button id="pwa-install-btn" class="icon-action-btn" title="앱 설치" style="display: none;">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/></svg>
+        </button>
+        <a href="edit.html" class="icon-action-btn" title="명함 편집/만들기">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="currentColor"/></svg>
+        </a>
+        <button id="stats-toggle" class="icon-action-btn" title="방문 통계">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="card-header">
+      <div class="profile-wrapper">
+        <img src="profile.svg" alt="CEO Profile" class="profile-img">
+        <div class="profile-ring"></div>
+      </div>
+      <div class="logo-wrapper">
+        <img src="icon.svg" alt="DANARI Logo" class="brand-logo">
+      </div>
+      <h1 class="ceo-name" data-i18n="name">홍길동</h1>
+      <p class="ceo-position" data-i18n="position">Founder & CEO</p>
+      <p class="company-name">DANARI</p>
+    </div>
+
+    <!-- Web3 Wallet / MetaMask Section -->
+    <div class="wallet-section card-blur">
+      <div class="wallet-header">
+        <div class="wallet-title">
+          <svg class="icon-small" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="currentColor"/></svg>
+          <span data-i18n="wallet_title">MetaMask 지갑 주소</span>
+        </div>
+        <button id="wallet-connect-btn" class="wallet-btn" data-i18n="wallet_connect">지갑 연결</button>
+      </div>
+      <div class="wallet-address-box">
+        <span id="wallet-address" class="address-text">0x71C765...B897</span>
+        <button id="copy-wallet-btn" class="copy-btn" title="주소 복사">
+          <svg class="icon-small" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Intro Text -->
+    <div class="intro-box">
+      <p data-i18n="intro">인공지능을 기반으로 주식 분석을 제공하는 다나리.</p>
+    </div>
+
+    <!-- Contact Info List -->
+    <div class="info-list card-blur">
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-label" data-i18n="info_phone_label">연락처</span>
+          <a href="tel:01012345678" id="info-phone" class="info-value link-tracking" data-track="call">010-1234-5678</a>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-label" data-i18n="info_email_label">이메일</span>
+          <a href="mailto:ceo@danari.io" id="info-email" class="info-value link-tracking" data-track="email">ceo@danari.io</a>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-label" data-i18n="info_web_label">웹사이트</span>
+          <a href="https://danari.io" target="_blank" rel="noopener noreferrer" id="info-web" class="info-value link-tracking" data-track="website">www.danari.io</a>
+        </div>
+      </div>
+      <div class="info-item" id="info-homepage-container" style="display: none;">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-label" data-i18n="info_homepage_label">개인 홈페이지</span>
+          <a href="#" target="_blank" rel="noopener noreferrer" id="info-homepage" class="info-value link-tracking" data-track="homepage"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="quick-buttons">
+      <a href="tel:01012345678" id="link-call" class="action-btn link-tracking" data-track="call">
+        <div class="btn-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/></svg>
+        </div>
+        <span data-i18n="btn_call">전화하기</span>
+      </a>
+      <a href="sms:01012345678" id="link-sms" class="action-btn link-tracking" data-track="sms">
+        <div class="btn-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" fill="currentColor"/></svg>
+        </div>
+        <span data-i18n="btn_sms">문자하기</span>
+      </a>
+      <button id="kakao-share-btn" class="action-btn link-tracking" data-track="kakao">
+        <div class="btn-icon">
+          <!-- Custom Kakao Icon -->
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.276.993-.996 3.585-1.14 4.12-.18.666.223.658.468.497.191-.125 3.036-2.008 4.25-2.82.378.053.763.082 1.152.082 4.97 0 9-3.186 9-7.116C21 6.185 16.97 3 12 3z" fill="currentColor"/></svg>
+        </div>
+        <span data-i18n="btn_kakao">카카오톡</span>
+      </button>
+      <button id="video-btn" class="action-btn link-tracking" data-track="video">
+        <div class="btn-icon">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" fill="currentColor"/></svg>
+        </div>
+        <span data-i18n="btn_video">소개영상</span>
+      </button>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="projects-section">
+      <h3 class="section-title" data-i18n="projects_title">DANARI 주요 프로젝트</h3>
+      
+      <!-- Interactive Grid -->
+      <div class="project-grid">
+        <div class="project-card link-tracking" data-track="proj_stablecoin">
+          <div class="project-icon-wrapper">
+            <svg class="project-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z" fill="currentColor"/></svg>
+          </div>
+          <h4 class="project-name" id="p0-name">DANARI Stablecoin</h4>
+          <p class="project-desc" id="p0-desc" data-i18n="proj_desc_stable">부동산 유동화 기반 스테이블코인 및 STO 디지털 자산거래소</p>
+        </div>
+
+        <div class="project-card link-tracking" data-track="proj_hotel">
+          <div class="project-icon-wrapper">
+            <svg class="project-icon" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z" fill="currentColor"/></svg>
+          </div>
+          <h4 class="project-name" id="p1-name">Hotel Pay System</h4>
+          <p class="project-desc" id="p1-desc" data-i18n="proj_desc_hotel">블록체인 결제를 도입한 글로벌 프리미엄 리조트 및 호텔 전용 간편 결제 시스템.</p>
+        </div>
+
+        <div class="project-card link-tracking" data-track="proj_nft">
+          <div class="project-icon-wrapper">
+            <svg class="project-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg>
+          </div>
+          <h4 class="project-name" id="p2-name">NFT Reservation</h4>
+          <p class="project-desc" id="p2-desc" data-i18n="proj_desc_nft">예약 권한을 NFT화하여 거래 및 양도가 가능한 차세대 대체불가토큰 멤버십 플랫폼.</p>
+        </div>
+
+        <div class="project-card link-tracking" data-track="proj_ai">
+          <div class="project-icon-wrapper">
+            <svg class="project-icon" viewBox="0 0 24 24"><path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.3 15.67 18.9 14.12 19 12h2c-.1 2.64-1 5.17-2.88 7.05-3.86 3.82-10.12 3.82-13.98 0-3.86-3.83-3.86-10.02 0-13.85 3.86-3.83 10.12-3.83 13.98 0l2.72-2.81v8.73H21z" fill="currentColor"/></svg>
+          </div>
+          <h4 class="project-name" id="p3-name">AI Trading Analysis</h4>
+          <p class="project-desc" id="p3-desc" data-i18n="proj_desc_ai">인공지능 딥러닝 기반의 디지털 자산 시황 예측 및 자동 퀀트 분석 엔진.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Actions Group -->
+    <div class="core-actions">
+      <button id="save-vcard-btn" class="primary-action-btn link-tracking" data-track="vcard">
+        <svg class="icon-small" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z" fill="currentColor"/></svg>
+        <span data-i18n="action_save">연락처 내 휴대폰에 저장</span>
+      </button>
+
+      <div class="secondary-actions">
+        <button id="qr-modal-btn" class="secondary-action-btn">
+          <svg class="icon-small" viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8-12v8h8V3h-8zm6 6h-4V5h4v4zm0 10h2v2h-2zm-6-6h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2zm2-2h2v2h-2zm0-4h2v2h-2zm2 2h2v2h-2z" fill="currentColor"/></svg>
+          <span data-i18n="action_qr">QR 코드 명함</span>
+        </button>
+        <a id="proposal-btn" href="proposal.pdf" download class="secondary-action-btn link-tracking" data-track="proposal">
+          <svg class="icon-small" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="currentColor"/></svg>
+          <span data-i18n="action_proposal">투자제안서 다운로드</span>
+        </a>
+      </div>
+
+      <button id="exchange-modal-btn" class="outline-action-btn">
+        <svg class="icon-small" viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z" fill="currentColor"/></svg>
+        <span data-i18n="action_exchange">명함 상호 교환하기</span>
+      </button>
+    </div>
+
+    <!-- Exchanged Cards Repository list -->
+    <div id="exchanged-cards-section" class="exchanged-section card-blur" style="display: none;">
+      <h4 class="section-subtitle" data-i18n="exchange_received_title">수신된 명함 목록</h4>
+      <div id="exchanged-list" class="exchanged-list">
+        <!-- Exchanged items dynamic insertion -->
+      </div>
+    </div>
+
+    <!-- Footer Copyright -->
+    <div class="footer">
+      <p>© 2026 DANARI Ltd. All rights reserved.</p>
+    </div>
+
+  </div>
+
+  <!-- ==================== MODALS & POPUPS ==================== -->
+
+  <!-- QR Code Modal -->
+  <div id="qr-modal" class="modal-overlay">
+    <div class="modal-content card-blur">
+      <button class="modal-close">&times;</button>
+      <h3 class="modal-title" data-i18n="modal_qr_title">디지털 명함 QR 코드</h3>
+      <p class="modal-desc" data-i18n="modal_qr_desc">아래 QR 코드를 모바일 기기로 스캔하면 디지털 명함으로 바로 연결됩니다.</p>
+      <div class="qr-code-wrapper">
+        <img id="qr-code-img" src="" alt="Dynamic QR Code">
+        <div class="qr-loading-spinner"></div>
+      </div>
+      <p class="qr-url-text" id="qr-url-display">https://danari.io</p>
+      <button id="copy-card-url-btn" class="modal-action-btn" data-i18n="modal_qr_copy">명함 링크 복사</button>
+    </div>
+  </div>
+
+  <!-- Video Player Modal -->
+  <div id="video-modal" class="modal-overlay">
+    <div class="modal-content video-modal-content card-blur">
+      <button class="modal-close">&times;</button>
+      <h3 class="modal-title" data-i18n="modal_video_title">DANARI 사업 및 비전 소개</h3>
+      <div class="video-player-container">
+        <!-- Fallback premium layout if video is blocked or just for demo -->
+        <video id="danari-video" width="100%" controls playsinline loop preload="metadata">
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-hud-interface-screens-and-charts-data-34287-large.mp4" type="video/mp4">
+          우아한 디지털 자산 소개 영상 대안 텍스트
+        </video>
+      </div>
+      <p class="video-caption" data-i18n="modal_video_caption">블록체인 기반 부동산 디지털 자산과 스테이블코인 미래 비전</p>
+    </div>
+  </div>
+
+  <!-- Business Card Exchange Modal -->
+  <div id="exchange-modal" class="modal-overlay">
+    <div class="modal-content card-blur">
+      <button class="modal-close">&times;</button>
+      <h3 class="modal-title" data-i18n="modal_exchange_title">명함 상호 교환</h3>
+      <p class="modal-desc" data-i18n="modal_exchange_desc">정보를 입력하여 홍길동 대표와 명함을 교환하세요. 로컬 기기에 서로 저장됩니다.</p>
+      
+      <form id="exchange-form" class="exchange-form">
+        <div class="form-group">
+          <label for="exch-name" data-i18n="label_exch_name">이름 *</label>
+          <input type="text" id="exch-name" required placeholder="예: 김철수">
+        </div>
+        <div class="form-group">
+          <label for="exch-company" data-i18n="label_exch_company">회사 / 직책</label>
+          <input type="text" id="exch-company" placeholder="예: 나리 테크 / 팀장">
+        </div>
+        <div class="form-group">
+          <label for="exch-phone" data-i18n="label_exch_phone">연락처 *</label>
+          <input type="tel" id="exch-phone" required placeholder="예: 010-9876-5432">
+        </div>
+        <div class="form-group">
+          <label for="exch-email" data-i18n="label_exch_email">이메일 *</label>
+          <input type="email" id="exch-email" required placeholder="예: chulsoo@nari.labs">
+        </div>
+        <button type="submit" class="modal-action-btn" data-i18n="btn_exch_submit">명함 전송 및 보관</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Statistics Modal -->
+  <div id="stats-modal" class="modal-overlay">
+    <div class="modal-content card-blur">
+      <button class="modal-close">&times;</button>
+      <h3 class="modal-title" data-i18n="modal_stats_title">방문자 및 클릭 통계</h3>
+      <p class="modal-desc" data-i18n="modal_stats_desc">본 수치는 로컬 브라우저 기기에서의 상호작용 통계입니다.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-num" id="stat-views">0</span>
+          <span class="stat-name" data-i18n="stat_name_views">명함 조회수</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-calls">0</span>
+          <span class="stat-name" data-i18n="stat_name_calls">전화/연락처 저장</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-exchanges">0</span>
+          <span class="stat-name" data-i18n="stat_name_exchanges">명함 교환수</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="stat-website">0</span>
+          <span class="stat-name" data-i18n="stat_name_website">웹 방문/프로젝트 클릭</span>
+        </div>
+      </div>
+
+      <!-- Small Simulated Chart -->
+      <div class="simulated-chart-container">
+        <h4 class="chart-title" data-i18n="chart_title">상호작용 분석</h4>
+        <div class="chart-bars-wrapper">
+          <div class="chart-bar-item">
+            <span class="bar-label" data-i18n="chart_lbl_view">조회</span>
+            <div class="bar-track"><div id="bar-view-fill" class="bar-fill" style="width: 0%"></div></div>
+            <span id="bar-view-val" class="bar-val">0</span>
+          </div>
+          <div class="chart-bar-item">
+            <span class="bar-label" data-i18n="chart_lbl_call">연락</span>
+            <div class="bar-track"><div id="bar-call-fill" class="bar-fill" style="width: 0%"></div></div>
+            <span id="bar-call-val" class="bar-val">0</span>
+          </div>
+          <div class="chart-bar-item">
+            <span class="bar-label" data-i18n="chart_lbl_exch">교환</span>
+            <div class="bar-track"><div id="bar-exch-fill" class="bar-fill" style="width: 0%"></div></div>
+            <span id="bar-exch-val" class="bar-val">0</span>
+          </div>
+          <div class="chart-bar-item">
+            <span class="bar-label" data-i18n="chart_lbl_web">프로젝트</span>
+            <div class="bar-track"><div id="bar-web-fill" class="bar-fill" style="width: 0%"></div></div>
+            <span id="bar-web-val" class="bar-val">0</span>
+          </div>
+        </div>
+      </div>
+
+      <button id="reset-stats-btn" class="modal-action-btn reset-btn" data-i18n="btn_stats_reset">통계 데이터 초기화</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

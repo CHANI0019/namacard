@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0b0f19">
+  <title>DANARI Digital Card Creator</title>
+
+  <!-- Google Fonts & Pretendard CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Specific styles for the Editor Layout */
+    body {
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .editor-wrapper {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      z-index: 10;
+    }
+
+    .form-container {
+      background: rgba(17, 24, 39, 0.65);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .creator-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 14px;
+    }
+
+    .form-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 24px;
+      margin-bottom: 14px;
+      border-left: 3px solid var(--primary);
+      padding-left: 8px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-full {
+      grid-column: span 2;
+    }
+
+    .form-actions-bar {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 20px;
+    }
+
+    /* Live Preview Section */
+    .preview-container {
+      position: sticky;
+      top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .preview-header-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      background: rgba(15,23,42,0.6);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Overriding Card margin inside preview so it fits nicely */
+    .preview-container .card-container {
+      margin: 0;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 30px rgba(6, 182, 212, 0.1);
+      pointer-events: none; /* Make card non-interactive in preview */
+    }
+
+    /* Tab selection for project input fields */
+    .project-tabs-headers {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      background: rgba(15,23,42,0.4);
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .proj-tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px;
+      cursor: pointer;
+      border-radius: 7px;
+      transition: var(--transition-fast);
+    }
+
+    .proj-tab-btn.active {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .project-tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .project-tab-pane.active {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Toast in Editor */
+    #editor-toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .editor-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .preview-container {
+        position: static;
+        order: -1; /* Show preview on top on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative Blurs -->
+  <div class="glow-bg-1"></div>
+  <div class="glow-bg-2"></div>
+
+  <div class="editor-wrapper">
+    <!-- Left: Settings Form -->
+    <div class="form-container">
+      <h2 class="creator-title">DANARI Digital Card Creator</h2>
+      
+      <form id="creator-form" onsubmit="return false;">
+        
+        <!-- Section 1: Profile Info -->
+        <div class="form-section-title">기본 프로필 정보</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="input-name">이름 *</label>
+            <input type="text" id="input-name" required placeholder="예: 정찬희">
+          </div>
+          <div class="form-group">
+            <label for="input-position">직책 *</label>
+            <input type="text" id="input-position" required placeholder="예: Founder & CEO">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-intro">한줄 소개 *</label>
+            <input type="text" id="input-intro" required placeholder="예: 인공지능 기반 주식 분석 플랫폼 다나리.">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-profile-url">프로필 사진 URL (비워두면 기본 아바타 사용)</label>
+            <input type="text" id="input-profile-url" placeholder="예: https://example.com/avatar.jpg">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-profile-file">프로필 사진 직접 업로드 (기기 저장용)</label>
+            <input type="file" id="input-profile-file" accept="image/*" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
+          </div>
+        </div>
+
+        <!-- Section 2: Contact Info -->
+        <div class="form-section-title">연락처 및 소셜 정보</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="input-phone">전화번호 *</label>
+            <input type="tel" id="input-phone" required placeholder="예: 010-1234-5678">
+          </div>
+          <div class="form-group">
+            <label for="input-email">이메일 *</label>
+            <input type="email" id="input-email" required placeholder="예: ceo@danari.io">
+          </div>
+          <div class="form-group">
+            <label for="input-web">회사 홈페이지 URL *</label>
+            <input type="text" id="input-web" required placeholder="예: www.danari.io">
+          </div>
+          <div class="form-group">
+            <label for="input-homepage">개인 홈페이지 URL</label>
+            <input type="text" id="input-homepage" placeholder="예: blog.naver.com/myname">
+          </div>
+          <div class="form-group">
+            <label for="input-wallet">MetaMask 지갑 주소</label>
+            <input type="text" id="input-wallet" placeholder="예: 0x71C7656EC7ab88b098defB751B7401B5f...">
+          </div>
+        </div>
+
+        <!-- Section 2.5: Additional Assets (Video & Proposal) -->
+        <div class="form-section-title">추가 콘텐츠 설정 (영상 및 제안서)</div>
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label for="input-video-url">소개영상 주소 (유튜브 링크 등)</label>
+            <input type="text" id="input-video-url" placeholder="예: https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-video-file">소개영상 직접 업로드 (기기 저장용)</label>
+            <input type="file" id="input-video-file" accept="video/*" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
+          </div>
+          <div class="form-group">
+            <label for="input-pdf-url">투자제안서 다운로드 주소 (외부 링크)</label>
+            <input type="text" id="input-pdf-url" placeholder="예: https://drive.google.com/file/d/.../view">
+          </div>
+          <div class="form-group">
+            <label for="input-pdf-file">투자제안서 PDF 직접 업로드 (기기 저장용)</label>
+            <input type="file" id="input-pdf-file" accept=".pdf" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
+          </div>
+          <div class="form-group form-full" style="grid-column: span 2; margin-top: -6px;">
+            <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 14px; border-radius: 12px; font-size: 11px; color: #f87171; line-height: 1.5;">
+              <strong>⚠️ 공유용 링크 제약 참고:</strong> 로컬 이미지/동영상/PDF 파일을 직접 업로드하는 경우 데이터 크기가 매우 큽니다. 이는 브라우저의 웹 주소창 길이 제한을 초과하게 만들므로 <strong>[공유용 고유 링크 복사]</strong> 시 파일 데이터 자체는 링크에 포함되지 않습니다. 타인에게 완전히 공유하시려면 구글 드라이브나 유튜브, 웹 호스팅상의 <strong>다운로드 주소/링크(URL)</strong>를 입력할 것을 강력히 권장합니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Projects (Tabs) -->
+        <div class="form-section-title">주요 프로젝트 설정 (최대 4개)</div>
+        <div class="project-tabs-headers">
+          <button type="button" class="proj-tab-btn active" data-tab="0">프로젝트 1</button>
+          <button type="button" class="proj-tab-btn" data-tab="1">프로젝트 2</button>
+          <button type="button" class="proj-tab-btn" data-tab="2">프로젝트 3</button>
+          <button type="button" class="proj-tab-btn" data-tab="3">프로젝트 4</button>
+        </div>
+
+        <!-- Project Form Panes -->
+        <div id="project-panes-container">
+          <!-- Project 1 -->
+          <div class="project-tab-pane active" data-pane="0">
+            <div class="form-group">
+              <label for="input-p0-name">프로젝트 1 이름</label>
+              <input type="text" id="input-p0-name" placeholder="예: DANARI Stablecoin">
+            </div>
+            <div class="form-group">
+              <label for="input-p0-desc">프로젝트 1 설명</label>
+              <input type="text" id="input-p0-desc" placeholder="예: 부동산 유동화 기반 스테이블코인 및 STO 거래소">
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="project-tab-pane" data-pane="1">
+            <div class="form-group">
+              <label for="input-p1-name">프로젝트 2 이름</label>
+              <input type="text" id="input-p1-name" placeholder="예: Hotel Pay System">
+            </div>
+            <div class="form-group">
+              <label for="input-p1-desc">프로젝트 2 설명</label>
+              <input type="text" id="input-p1-desc" placeholder="예: 리조트 전용 블록체인 결제 솔루션">
+            </div>
+          </div>
+          <!-- Project 3 -->
+          <div class="project-tab-pane" data-pane="2">
+            <div class="form-group">
+              <label for="input-p2-name">프로젝트 3 이름</label>
+              <input type="text" id="input-p2-name" placeholder="예: NFT Reservation">
+            </div>
+            <div class="form-group">
+              <label for="input-p2-desc">프로젝트 3 설명</label>
+              <input type="text" id="input-p2-desc" placeholder="예: 예약 권한을 사고파는 NFT 멤버십 플랫폼">
+            </div>
+          </div>
+          <!-- Project 4 -->
+          <div class="project-tab-pane" data-pane="3">
+            <div class="form-group">
+              <label for="input-p3-name">프로젝트 4 이름</label>
+              <input type="text" id="input-p3-name" placeholder="예: AI Trading Analysis">
+            </div>
+            <div class="form-group">
+              <label for="input-p3-desc">프로젝트 4 설명</label>
+              <input type="text" id="input-p3-desc" placeholder="예: AI 기반 시황 분석 및 예측 엔진">
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Area -->
+        <div class="form-actions-bar">
+          <button type="button" id="btn-copy-link" class="primary-action-btn">
+            <svg class="icon-small" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+            공유용 고유 링크 복사 (명함 링크 생성)
+          </button>
+          
+          <div class="secondary-actions">
+            <button type="button" id="btn-save-local" class="secondary-action-btn">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" fill="currentColor"/></svg>
+              내 기기에 기본으로 저장
+            </button>
+            <a href="index.html" class="secondary-action-btn">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+              내 명함 보기
+            </a>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Right: Real-time Live Preview -->
+    <div class="preview-container">
+      <div class="preview-header-tag">실시간 프리뷰 화면</div>
+      
+      <!-- Mini scaled index.html mockup card wrapper -->
+      <div class="card-container" id="preview-card">
+        <div class="top-bar">
+          <div class="lang-selector">
+            <button class="lang-btn active">KO</button>
+            <button class="lang-btn">EN</button>
+            <button class="lang-btn">ZH</button>
+          </div>
+          <div class="top-actions">
+            <button class="icon-action-btn">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-header">
+          <div class="profile-wrapper">
+            <img src="profile.svg" id="prev-profile-img" alt="Profile" class="profile-img">
+            <div class="profile-ring"></div>
+          </div>
+          <div class="logo-wrapper">
+            <img src="icon.svg" alt="Logo" class="brand-logo">
+          </div>
+          <h1 class="ceo-name" id="prev-name">정찬희</h1>
+          <p class="ceo-position" id="prev-position">Founder & CEO</p>
+          <p class="company-name">DANARI</p>
+        </div>
+
+        <div class="wallet-section card-blur">
+          <div class="wallet-header">
+            <div class="wallet-title">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" fill="currentColor"/></svg>
+              <span>MetaMask 지갑 주소</span>
+            </div>
+            <button class="wallet-btn">지갑 연결</button>
+          </div>
+          <div class="wallet-address-box">
+            <span class="address-text" id="prev-wallet">0x71C765...B897</span>
+            <button class="copy-btn">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="intro-box">
+          <p id="prev-intro">인공지능을 기반으로 주식 분석을 제공하는 다나리.</p>
+        </div>
+
+        <div class="info-list card-blur">
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" class="icon"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/></svg>
+            </div>
+            <div class="info-details">
+              <span class="info-label">연락처</span>
+              <span class="info-value" id="prev-phone">010-1234-5678</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" class="icon"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
+            </div>
+            <div class="info-details">
+              <span class="info-label">이메일</span>
+              <span class="info-value" id="prev-email">ceo@danari.io</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+            </div>
+            <div class="info-details">
+              <span class="info-label">웹사이트</span>
+              <span class="info-value" id="prev-web">www.danari.io</span>
+            </div>
+          </div>
+          <div class="info-item" id="prev-homepage-container" style="display: none;">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" class="icon"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+            </div>
+            <div class="info-details">
+              <span class="info-label">개인 홈페이지</span>
+              <span class="info-value" id="prev-homepage"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-buttons">
+          <div class="action-btn">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/></svg></div>
+            <span>전화하기</span>
+          </div>
+          <div class="action-btn">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" fill="currentColor"/></svg></div>
+            <span>문자하기</span>
+          </div>
+          <div class="action-btn">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.276.993-.996 3.585-1.14 4.12-.18.666.223.658.468.497.191-.125 3.036-2.008 4.25-2.82.378.053.763.082 1.152.082 4.97 0 9-3.186 9-7.116C21 6.185 16.97 3 12 3z" fill="currentColor"/></svg></div>
+            <span>카카오톡</span>
+          </div>
+          <div class="action-btn">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" class="icon"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" fill="currentColor"/></svg></div>
+            <span>소개영상</span>
+          </div>
+        </div>
+
+        <div class="projects-section">
+          <h3 class="section-title">DANARI 주요 프로젝트</h3>
+          <div class="project-grid">
+            <div class="project-card">
+              <div class="project-icon-wrapper"><svg class="project-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z" fill="currentColor"/></svg></div>
+              <h4 class="project-name" id="prev-p0-name">DANARI Stablecoin</h4>
+              <p class="project-desc" id="prev-p0-desc">부동산 유동화 기반 스테이블코인 및 STO 거래소</p>
+            </div>
+            <div class="project-card">
+              <div class="project-icon-wrapper"><svg class="project-icon" viewBox="0 0 24 24"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z" fill="currentColor"/></svg></div>
+              <h4 class="project-name" id="prev-p1-name">Hotel Pay System</h4>
+              <p class="project-desc" id="prev-p1-desc">리조트 전용 블록체인 결제 솔루션</p>
+            </div>
+            <div class="project-card">
+              <div class="project-icon-wrapper"><svg class="project-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg></div>
+              <h4 class="project-name" id="prev-p2-name">NFT Reservation</h4>
+              <p class="project-desc" id="prev-p2-desc">예약 권한을 사고파는 NFT 멤버십 플랫폼</p>
+            </div>
+            <div class="project-card">
+              <div class="project-icon-wrapper"><svg class="project-icon" viewBox="0 0 24 24"><path d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.3 15.67 18.9 14.12 19 12h2c-.1 2.64-1 5.17-2.88 7.05-3.86 3.82-10.12 3.82-13.98 0-3.86-3.83-3.86-10.02 0-13.85 3.86-3.83 10.12-3.83 13.98 0l2.72-2.81v8.73H21z" fill="currentColor"/></svg></div>
+              <h4 class="project-name" id="prev-p3-name">AI Trading Analysis</h4>
+              <p class="project-desc" id="prev-p3-desc">AI 기반 시황 분석 및 예측 엔진</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast for Copy notification -->
+  <div id="editor-toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="edit.js"></script>
+</body>
+</html>
