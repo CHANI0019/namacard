@@ -354,6 +354,20 @@ function injectCardDataToDOM() {
       proposalBtn.setAttribute('download', 'proposal.pdf');
     }
   }
+
+  // Show edit button only for the owner
+  const urlParams = new URLSearchParams(window.location.search);
+  const isShared = urlParams.has('c');
+  const hasLocalCard = localStorage.getItem('danari_my_card');
+  const hasOwnerParam = urlParams.has('edit') || urlParams.has('owner');
+  const editBtn = document.getElementById('edit-card-btn');
+  if (editBtn) {
+    if ((!isShared && hasLocalCard) || hasOwnerParam) {
+      editBtn.style.display = 'flex';
+    } else {
+      editBtn.style.display = 'none';
+    }
+  }
 }
 
 function getProjKey(index) {

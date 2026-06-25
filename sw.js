@@ -1,4 +1,4 @@
-const CACHE_NAME = 'danari-card-v20';
+const CACHE_NAME = 'danari-card-v21';
 const ASSETS_TO_CACHE = [
   './',
   'index.html',
