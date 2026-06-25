@@ -1,15 +1,15 @@
 // ==================== STATE & DEFAULTS ====================
 const defaultCardData = {
   name: "정찬희",
-  position: "Founder & CEO",
-  intro: "인공지능을 기반으로 주식 분석을 제공하는 다나리.",
+  position: "대표이사",
+  intro: "인공지능 기반 자산관리 및 투자 솔루션 기업 다나리(DANARI)",
   profileUrl: "",
   profileBase64: "",
-  phone: "010-1234-5678",
-  email: "ceo@danari.io",
-  web: "www.danari.io",
-  homepage: "",
-  wallet: "0x71C7656EC7ab88b098defB751B7401B5f6d1476B",
+  phone: "010-3335-8245",
+  email: "[EMAIL_ADDRESS]",
+  web: "https://www.danari.co.kr",
+  homepage: "https://ceo.danari.co.kr",
+  wallet: "0x6E0cc95003240fD75270F9645B2cB6a32545Ea99",
   videoUrl: "",
   videoBase64: "",
   pdfUrl: "",
@@ -139,7 +139,7 @@ function setupInputListeners() {
         if (fileInput) fileInput.value = ''; // Reset file input
 
         const img = document.getElementById('prev-profile-img');
-        if (img) img.src = val ? val : 'profile.svg';
+        if (img) img.src = val ? val : 'DNR.png';
     }},
     { id: 'input-wallet', targetId: 'prev-wallet', field: 'wallet', custom: (val) => {
         const txt = document.getElementById('prev-wallet');
@@ -374,7 +374,7 @@ function updatePreview() {
   if (currentData.profileBase64) {
     document.getElementById('prev-profile-img').src = currentData.profileBase64;
   } else {
-    document.getElementById('prev-profile-img').src = currentData.profileUrl ? currentData.profileUrl : 'profile.svg';
+    document.getElementById('prev-profile-img').src = currentData.profileUrl ? currentData.profileUrl : 'DNR.png';
   }
   
   document.getElementById('prev-phone').innerText = currentData.phone;

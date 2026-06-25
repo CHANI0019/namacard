@@ -183,20 +183,20 @@ const defaultCardData = {
   intro: "인공지능을 기반으로 주식 분석을 제공하는 다나리.",
   profileUrl: "",
   profileBase64: "",
-  phone: "010-1234-5678",
-  email: "ceo@danari.io",
-  web: "www.danari.io",
-  homepage: "",
-  wallet: "0x71C7656EC7ab88b098defB751B7401B5f6d1476B",
+  phone: "010-3335-8245",
+  email: "ceodanari@naver.com",
+  web: "https://www.danari.co.kr",
+  homepage: "https://ceo.danari.co.kr",
+  wallet: "0x6E0cc95003240fD75270F9645B2cB6a32545Ea99",
   videoUrl: "",
   videoBase64: "",
   pdfUrl: "",
   proposalBase64: "",
   projects: [
-    { name: "DANARI Stablecoin", desc: "부동산 유동화 기반 스테이블코인 및 STO 디지털 자산거래소" },
-    { name: "Hotel Pay System", desc: "리조트 전용 블록체인 결제 솔루션" },
-    { name: "NFT Reservation", desc: "예약 권한을 사고파는 NFT 멤버십 플랫폼" },
-    { name: "AI Trading Analysis", desc: "AI 기반 시황 분석 및 예측 엔진" }
+    { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
+    { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
+    { name: "DANARI 자율주행", desc: "자율주행 로봇" },
+    { name: "자율생성 AI 기반 회계시스템", desc: "생성형 AI로 세금신고부터 재무제표를 자동생성합니다." }
   ]
 };
 
@@ -267,7 +267,7 @@ function injectCardDataToDOM() {
     if (activeCardData.profileBase64) {
       imgEl.src = activeCardData.profileBase64;
     } else {
-      imgEl.src = activeCardData.profileUrl ? activeCardData.profileUrl : 'profile.svg';
+      imgEl.src = activeCardData.profileUrl ? activeCardData.profileUrl : 'DNR.png';
     }
   }
 

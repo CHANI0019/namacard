@@ -1,4 +1,4 @@
-const CACHE_NAME = 'danari-card-v18';
+const CACHE_NAME = 'danari-card-v19';
 const ASSETS_TO_CACHE = [
   './',
   'index.html',
@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   'app.js',
   'edit.js',
   'manifest.json',
-  'profile.svg',
+  'DNR.png',
   'icon.svg',
   'proposal.pdf'
 ];
