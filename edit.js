@@ -24,7 +24,36 @@ const defaultCardData = {
 
 let currentData = { ...defaultCardData };
 
+function readFormValuesToCurrentData() {
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  };
+
+  currentData.name = getVal('input-name');
+  currentData.position = getVal('input-position');
+  currentData.intro = getVal('input-intro');
+  currentData.profileUrl = getVal('input-profile-url');
+  
+  currentData.phone = getVal('input-phone');
+  currentData.email = getVal('input-email');
+  currentData.web = getVal('input-web');
+  currentData.homepage = getVal('input-homepage');
+  currentData.wallet = getVal('input-wallet');
+  currentData.videoUrl = getVal('input-video-url');
+  currentData.pdfUrl = getVal('input-pdf-url');
+
+  if (!currentData.projects) currentData.projects = [];
+  for (let i = 0; i < 4; i++) {
+    currentData.projects[i] = {
+      name: getVal(`input-p${i}-name`),
+      desc: getVal(`input-p${i}-desc`)
+    };
+  }
+}
+
 function saveToLocalStorageSilently() {
+  readFormValuesToCurrentData();
   try {
     localStorage.setItem('danari_my_card', JSON.stringify(currentData));
   } catch (e) {
@@ -376,6 +405,7 @@ function updatePreview() {
 
 // Save Card details locally
 function saveToLocalStorage() {
+  readFormValuesToCurrentData();
   try {
     localStorage.setItem('danari_my_card', JSON.stringify(currentData));
     showToast("내 컴퓨터 브라우저에 기본 명함으로 안전하게 저장되었습니다.");
@@ -390,6 +420,7 @@ function saveToLocalStorage() {
 
 // Generate URL query with Unicode base64 and copy to clipboard
 function copyShareableLink() {
+  readFormValuesToCurrentData();
   // Compress and serialize data safely for UTF-8 Korean/Chinese
   const sharedData = { ...currentData };
   delete sharedData.proposalBase64; // Remove large binary PDF data from URL parameters

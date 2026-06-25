@@ -805,6 +805,21 @@ async function connectMetaMask() {
       btn.innerText = dictionary[currentLang].wallet_connect;
     }
   } else {
+    // Check if mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+      const confirmMove = confirm(
+        currentLang === 'ko' ? "스마트폰에 설치된 메타마스크 앱을 실행하여 실제 지갑을 연결할까요?\n(확인을 누르면 메타마스크 내 안전 브라우저로 명함이 열립니다.)" :
+        currentLang === 'en' ? "Would you like to open MetaMask app to connect your real wallet?" :
+        "是否打开 MetaMask 应用以连接您的真实钱包？"
+      );
+      if (confirmMove) {
+        const cleanUrl = window.location.href.replace(/^https?:\/\//, '');
+        window.location.href = `https://metamask.app.link/dapp/${cleanUrl}`;
+        return;
+      }
+    }
+
     // Demonstration fallback flow
     btn.innerText = 'Connecting...';
     btn.disabled = true;
