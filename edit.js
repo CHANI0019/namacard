@@ -6,19 +6,21 @@ const defaultCardData = {
   profileUrl: "",
   profileBase64: "",
   phone: "010-3335-8245",
-  email: "[EMAIL_ADDRESS]",
-  web: "https://www.danari.co.kr",
-  homepage: "https://ceo.danari.co.kr",
+  email: "ceodanari@naver.com",
+  web: "danari.co.kr",
+  homepage: "ceo.danari.co.kr",
   wallet: "0x6E0cc95003240fD75270F9645B2cB6a32545Ea99",
   videoUrl: "",
   videoBase64: "",
   pdfUrl: "",
   proposalBase64: "",
-  projects: [
-    { name: "DANARI Stablecoin", desc: "부동산 유동화 기반 스테이블코인 및 STO 디지털 자산거래소" },
-    { name: "Hotel Pay System", desc: "리조트 전용 블록체인 결제 솔루션" },
-    { name: "NFT Reservation", desc: "예약 권한을 사고파는 NFT 멤버십 플랫폼" },
-    { name: "AI Trading Analysis", desc: "AI 기반 시황 분석 및 예측 엔진" }
+  projects: [ 
+    { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
+    { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
+    { name: "DANARI 자율주행", desc: "자율주행 로봇" },
+    { name: "자율생성 AI 기반 회계시스템", desc: "생성형 AI로 세금신고부터 재무제표를 자동생성합니다."},
+    { name: "DANARI NFT", desc: "" },
+    { name: "DANARI Stablecoin", desc: "" }
   ]
 };
 
