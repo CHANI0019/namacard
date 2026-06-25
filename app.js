@@ -357,17 +357,64 @@ function injectCardDataToDOM() {
 
   // Show edit button only for the owner
   const urlParams = new URLSearchParams(window.location.search);
-  const isShared = urlParams.has('c');
-  const hasLocalCard = localStorage.getItem('danari_my_card');
-  const hasOwnerParam = urlParams.has('edit') || urlParams.has('owner');
   const editBtn = document.getElementById('edit-card-btn');
   if (editBtn) {
-    if ((!isShared && hasLocalCard) || hasOwnerParam) {
+    let isOwner = false;
+
+    // 1. Check if the URL has ?edit or ?owner parameter
+    if (urlParams.has('edit') || urlParams.has('owner')) {
+      isOwner = true;
+    } else {
+      // 2. Check if localStorage has card data matching the active card
+      const localSaved = localStorage.getItem('danari_my_card');
+      if (localSaved) {
+        try {
+          const localData = JSON.parse(localSaved);
+          // If the name and email match the active card, the viewer is the owner
+          if (localData.name === activeCardData.name && localData.email === activeCardData.email) {
+            isOwner = true;
+          }
+        } catch (e) {
+          console.error("Error parsing local card data for owner check:", e);
+        }
+      }
+    }
+
+    if (isOwner) {
       editBtn.style.display = 'flex';
     } else {
       editBtn.style.display = 'none';
     }
   }
+
+  // Hidden entrance to editor: double click/double tap on the profile image or logo
+  const logoEl = document.querySelector('.brand-logo');
+  const profileEl = document.querySelector('.profile-img');
+  const goToEdit = () => {
+    window.location.href = 'edit.html';
+  };
+  
+  if (logoEl) {
+    logoEl.style.cursor = 'pointer';
+    logoEl.addEventListener('dblclick', goToEdit);
+  }
+  if (profileEl) {
+    profileEl.style.cursor = 'pointer';
+    profileEl.addEventListener('dblclick', goToEdit);
+  }
+
+  // Double tap handler for mobile
+  let lastTap = 0;
+  const handleTouchStart = () => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 500 && tapLength > 0) {
+      goToEdit();
+    }
+    lastTap = currentTime;
+  };
+  if (logoEl) logoEl.addEventListener('touchstart', handleTouchStart);
+  if (profileEl) profileEl.addEventListener('touchstart', handleTouchStart);
 }
 
 function getProjKey(index) {
