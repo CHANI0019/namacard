@@ -744,8 +744,15 @@ a.info-value:hover {
   padding: 10px 14px;
   border-left: 3px solid var(--purple);
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
+}
+
+.exch-card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .exch-item-header {
@@ -784,17 +791,23 @@ a.info-value:hover {
 .exch-delete-btn {
   background: none;
   border: none;
-  color: var(--text-dark);
+  color: var(--text-muted);
   cursor: pointer;
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  font-size: 14px;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  margin-left: 12px;
   transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .exch-delete-btn:hover {
   color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
 }
 
 /* ==================== FOOTER ==================== */

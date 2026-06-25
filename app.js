@@ -921,16 +921,18 @@ function renderExchangedCards() {
     cardItem.className = 'exchanged-card-item';
 
     cardItem.innerHTML = `
-      <button class="exch-delete-btn" onclick="deleteExchangedCard(${card.id})">&times;</button>
-      <div class="exch-item-header">
-        <span class="exch-name-title">${escapeHTML(card.name)}</span>
-        <span class="exch-company-title">${escapeHTML(card.company)}</span>
+      <div class="exch-card-body">
+        <div class="exch-item-header">
+          <span class="exch-name-title">${escapeHTML(card.name)}</span>
+          <span class="exch-company-title">${escapeHTML(card.company)}</span>
+        </div>
+        <div class="exch-details">
+          <a href="tel:${escapeHTML(card.phone)}">📱 ${escapeHTML(card.phone)}</a>
+          <a href="mailto:${escapeHTML(card.email)}">📧 ${escapeHTML(card.email)}</a>
+          <span>📅 ${card.timestamp}</span>
+        </div>
       </div>
-      <div class="exch-details">
-        <a href="tel:${escapeHTML(card.phone)}">📱 ${escapeHTML(card.phone)}</a>
-        <a href="mailto:${escapeHTML(card.email)}">📧 ${escapeHTML(card.email)}</a>
-        <span>📅 ${card.timestamp}</span>
-      </div>
+      <button class="exch-delete-btn" onclick="deleteExchangedCard(${card.id})" title="삭제">&times;</button>
     `;
 
     listEl.appendChild(cardItem);
