@@ -1,13 +1,13 @@
 // ==================== MULTILINGUAL DICTIONARY ====================
 const dictionary = {
   ko: {
-    name: "홍길동",
+    name: "정찬희",
     position: "Founder & CEO",
     wallet_title: "MetaMask 지갑 주소",
     wallet_connect: "지갑 연결",
     wallet_connected: "지갑 연결됨",
     wallet_connect_demo: "지갑 연결 (데모)",
-    intro: "부동산 기반 디지털 자산과 스테이블코인 생태계를 구축하고 있습니다.",
+    intro: "AI 기반 주식분석애널리스트 및 블록체인 기반 디지털 자산 플랫폼 개발 및 운영을 하고 있습니다.",
     info_phone_label: "연락처",
     info_email_label: "이메일",
     info_web_label: "웹사이트",
@@ -32,7 +32,7 @@ const dictionary = {
     modal_video_title: "DANARI 사업 및 비전 소개",
     modal_video_caption: "블록체인 기반 부동산 디지털 자산과 스테이블코인 미래 비전",
     modal_exchange_title: "명함 상호 교환",
-    modal_exchange_desc: "정보를 입력하여 홍길동 대표와 명함을 교환하세요. 로컬 기기에 서로 저장됩니다.",
+    modal_exchange_desc: "정보를 입력하여 정찬희 대표와 명함을 교환하세요. 로컬 기기에 서로 저장됩니다.",
     label_exch_name: "이름 *",
     label_exch_company: "회사 / 직책",
     label_exch_phone: "연락처 *",
@@ -59,8 +59,8 @@ const dictionary = {
     toast_vcard_download: "연락처(vCard) 다운로드를 시작합니다."
   },
   en: {
-    name: "Gildong Hong",
-    position: "Founder & CEO",
+    name: "Chani Jeong",
+    position: "Co-Founder & COO",
     wallet_title: "MetaMask Wallet Address",
     wallet_connect: "Connect",
     wallet_connected: "Connected",
@@ -90,7 +90,7 @@ const dictionary = {
     modal_video_title: "DANARI Business & Vision",
     modal_video_caption: "Blockchain-based real estate digital assets and stablecoin future vision",
     modal_exchange_title: "Exchange Business Cards",
-    modal_exchange_desc: "Enter your details to exchange business cards with Gildong Hong. Cards will be stored locally.",
+    modal_exchange_desc: "Enter your details to exchange business cards with Chani Jeong. Cards will be stored locally.",
     label_exch_name: "Name *",
     label_exch_company: "Company / Title",
     label_exch_phone: "Phone *",
@@ -117,8 +117,8 @@ const dictionary = {
     toast_vcard_download: "Starting contact (vCard) download."
   },
   zh: {
-    name: "洪吉童",
-    position: "创始人兼首席执行官",
+    name: "鄭燦喜",
+    position: "联合创始首席执行官",
     wallet_title: "MetaMask 钱包地址",
     wallet_connect: "连接钱包",
     wallet_connected: "已连接",
@@ -148,7 +148,7 @@ const dictionary = {
     modal_video_title: "DANARI 业务与愿景介绍",
     modal_video_caption: "基于区块链的房地产数字资产与稳定币未来愿景",
     modal_exchange_title: "名片互换",
-    modal_exchange_desc: "输入您的信息与 洪吉童 代表互换名片。名片信息将保存在本地设备中。",
+    modal_exchange_desc: "输入您的信息与 鄭燦喜代表互换名片。 代表互换名片。名片信息将保存在本地设备中。",
     label_exch_name: "姓名 *",
     label_exch_company: "公司 / 职位",
     label_exch_phone: "联系电话 *",
