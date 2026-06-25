@@ -273,7 +273,12 @@ function injectCardDataToDOM() {
 
   // Direct contacts
   const phoneText = document.getElementById('info-phone');
-  if (phoneText) phoneText.innerText = activeCardData.phone;
+  if (phoneText) {
+    phoneText.innerText = activeCardData.phone;
+    if (phoneText.tagName === 'A') {
+      phoneText.href = `tel:${activeCardData.phone}`;
+    }
+  }
   const phoneLink = document.getElementById('link-call');
   if (phoneLink) phoneLink.href = `tel:${activeCardData.phone}`;
   const smsLink = document.getElementById('link-sms');
