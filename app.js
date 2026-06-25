@@ -279,15 +279,15 @@ function injectCardDataToDOM() {
   const smsLink = document.getElementById('link-sms');
   if (smsLink) smsLink.href = `sms:${activeCardData.phone}`;
 
-  const emailText = document.getElementById('info-email');
-  if (emailText) emailText.innerText = activeCardData.email;
-  const emailLink = document.getElementById('link-email');
-  if (emailLink) emailLink.href = `mailto:${activeCardData.email}`;
+  const emailLink = document.getElementById('info-email');
+  if (emailLink) {
+    emailLink.innerText = activeCardData.email;
+    emailLink.href = `mailto:${activeCardData.email}`;
+  }
 
-  const webText = document.getElementById('info-web');
-  if (webText) webText.innerText = activeCardData.web;
-  const webLink = document.getElementById('link-web');
+  const webLink = document.getElementById('info-web');
   if (webLink) {
+    webLink.innerText = activeCardData.web;
     const fullUrl = activeCardData.web.startsWith('http') ? activeCardData.web : `https://${activeCardData.web}`;
     webLink.href = fullUrl;
   }
@@ -821,13 +821,11 @@ async function connectMetaMask() {
 }
 
 function updateWalletUI(address, isReal) {
-  const addressText = document.getElementById('wallet-address');
   const connectBtn = document.getElementById('wallet-connect-btn');
 
-  if (addressText && connectBtn) {
+  if (connectBtn) {
     const formatted = `${address.slice(0, 6)}...${address.slice(-4)}`;
-    addressText.innerText = address;
-    connectBtn.innerText = isReal ? dictionary[currentLang].wallet_connected : dictionary[currentLang].wallet_connect_demo;
+    connectBtn.innerText = isReal ? `${formatted} 연결됨` : dictionary[currentLang].wallet_connect_demo;
     connectBtn.classList.add('connected');
   }
 }
