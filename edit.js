@@ -14,6 +14,9 @@ const defaultCardData = {
   videoBase64: "",
   pdfUrl: "",
   proposalBase64: "",
+  bankAccount: "토스뱅크 1002-6623-4905 다나리",
+  bizCertUrl: "다나리사업자등록증.pdf",
+  bizCertBase64: "",
   projects: [ 
     { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
     { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
@@ -44,6 +47,8 @@ function readFormValuesToCurrentData() {
   currentData.wallet = getVal('input-wallet');
   currentData.videoUrl = getVal('input-video-url');
   currentData.pdfUrl = getVal('input-pdf-url');
+  currentData.bankAccount = getVal('input-bank-account');
+  currentData.bizCertUrl = getVal('input-biz-cert-url');
 
   if (!currentData.projects) currentData.projects = [];
   for (let i = 0; i < 4; i++) {
@@ -104,6 +109,8 @@ function initFormValues() {
   document.getElementById('input-wallet').value = currentData.wallet || '';
   document.getElementById('input-video-url').value = currentData.videoUrl || '';
   document.getElementById('input-pdf-url').value = currentData.pdfUrl || '';
+  document.getElementById('input-bank-account').value = currentData.bankAccount || '';
+  document.getElementById('input-biz-cert-url').value = currentData.bizCertUrl || '';
 
   // Projects
   const projs = currentData.projects || [];
@@ -160,7 +167,13 @@ function setupInputListeners() {
         const videoFileInput = document.getElementById('input-video-file');
         if (videoFileInput) videoFileInput.value = ''; // Reset file input
     }},
-    { id: 'input-pdf-url', field: 'pdfUrl' }
+    { id: 'input-pdf-url', field: 'pdfUrl' },
+    { id: 'input-bank-account', targetId: 'prev-bank-account', field: 'bankAccount' },
+    { id: 'input-biz-cert-url', field: 'bizCertUrl', custom: (val) => {
+        currentData.bizCertBase64 = ""; // Clear base64 when URL is entered
+        const bizCertFileInput = document.getElementById('input-biz-cert-file');
+        if (bizCertFileInput) bizCertFileInput.value = ''; // Reset file input
+    }}
   ];
 
   bindings.forEach(binding => {
@@ -309,6 +322,39 @@ function setupInputListeners() {
     });
   }
 
+  // Local Business Certificate File Upload Reader
+  const bizCertFileInput = document.getElementById('input-biz-cert-file');
+  if (bizCertFileInput) {
+    bizCertFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type) && !file.name.endsWith('.pdf')) {
+        alert("이미지(JPG, PNG, GIF, WebP) 또는 PDF 파일만 업로드할 수 있습니다.");
+        bizCertFileInput.value = '';
+        return;
+      }
+
+      if (file.size > 3.0 * 1024 * 1024) {
+        alert("사업자등록증 파일의 용량은 최대 3MB 이하로 제한됩니다.");
+        bizCertFileInput.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        currentData.bizCertBase64 = event.target.result;
+        currentData.bizCertUrl = ""; // Clear URL when file is uploaded
+        const urlInput = document.getElementById('input-biz-cert-url');
+        if (urlInput) urlInput.value = ''; // Reset URL input
+        saveToLocalStorageSilently();
+        showToast("사업자등록증 파일이 성공적으로 로드되었습니다.");
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   // Project inputs binding
   for (let i = 0; i < 4; i++) {
     const nameEl = document.getElementById(`input-p${i}-name`);
@@ -394,6 +440,11 @@ function updatePreview() {
     }
   }
 
+  const prevBankAccount = document.getElementById('prev-bank-account');
+  if (prevBankAccount) {
+    prevBankAccount.innerText = currentData.bankAccount || '토스뱅크 1002-6623-4905 다나리';
+  }
+
   const wall = currentData.wallet;
   document.getElementById('prev-wallet').innerText = (wall && wall.length > 12) ? `${wall.slice(0, 6)}...${wall.slice(-4)}` : (wall || '0x0000...0000');
 
@@ -428,6 +479,7 @@ function copyShareableLink() {
   delete sharedData.proposalBase64; // Remove large binary PDF data from URL parameters
   delete sharedData.profileBase64; // Remove large binary profile image from URL parameters
   delete sharedData.videoBase64; // Remove large binary video from URL parameters
+  delete sharedData.bizCertBase64; // Remove large binary certificate file from URL parameters
   const jsonStr = JSON.stringify(sharedData);
   const base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
 

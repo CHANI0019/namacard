@@ -262,6 +262,10 @@
             <label for="input-wallet">MetaMask 지갑 주소</label>
             <input type="text" id="input-wallet" placeholder="예: 0x6E0cc95003240fD75270F9645B2cB6a32545Ea99...">
           </div>
+          <div class="form-group">
+            <label for="input-bank-account">토스뱅크 계좌번호</label>
+            <input type="text" id="input-bank-account" placeholder="예: 토스뱅크 1002-6623-4905 다나리">
+          </div>
         </div>
 
         <!-- Section 2.5: Additional Assets (Video & Proposal) -->
@@ -282,6 +286,14 @@
           <div class="form-group">
             <label for="input-pdf-file">투자제안서 PDF 직접 업로드 (기기 저장용)</label>
             <input type="file" id="input-pdf-file" accept=".pdf" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-biz-cert-url">사업자등록증 이미지/PDF 외부 주소 (URL)</label>
+            <input type="text" id="input-biz-cert-url" placeholder="예: https://example.com/biz-certificate.pdf">
+          </div>
+          <div class="form-group form-full">
+            <label for="input-biz-cert-file">사업자등록증 직접 업로드 (이미지 또는 PDF, 최대 3MB)</label>
+            <input type="file" id="input-biz-cert-file" accept="image/*,.pdf" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
           </div>
           <div class="form-group form-full" style="grid-column: span 2; margin-top: -6px;">
             <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 14px; border-radius: 12px; font-size: 11px; color: #f87171; line-height: 1.5;">
@@ -411,6 +423,23 @@
           </div>
           <div class="wallet-address-box">
             <span class="address-text" id="prev-wallet">0x71C765...B897</span>
+            <button class="copy-btn">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Corporate / Business Info Section Mockup -->
+        <div class="biz-section card-blur">
+          <div class="biz-header">
+            <div class="biz-title">
+              <svg class="icon-small" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z" fill="currentColor"/></svg>
+              <span>사업자 및 계좌 정보</span>
+            </div>
+            <button class="biz-btn">사업자등록증 보기</button>
+          </div>
+          <div class="bank-box">
+            <span class="address-text" id="prev-bank-account">토스뱅크 1002-6623-4905 다나리</span>
             <button class="copy-btn">
               <svg class="icon-small" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg>
             </button>

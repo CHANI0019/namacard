@@ -56,7 +56,10 @@ const dictionary = {
     toast_metamask_connected: "MetaMask 지갑이 성공적으로 연결되었습니다.",
     toast_exch_success: "명함이 전송되고 보관함에 저장되었습니다.",
     toast_stats_reset: "통계 데이터가 초기화되었습니다.",
-    toast_vcard_download: "연락처(vCard) 다운로드를 시작합니다."
+    toast_vcard_download: "연락처(vCard) 다운로드를 시작합니다.",
+    biz_info_title: "사업자 및 계좌 정보",
+    biz_cert_view: "사업자등록증 보기",
+    toast_copied_bank: "계좌번호가 복사되었습니다."
   },
   en: {
     name: "Chani Jeong",
@@ -114,7 +117,10 @@ const dictionary = {
     toast_metamask_connected: "MetaMask wallet successfully connected.",
     toast_exch_success: "Namecard sent and saved to vault.",
     toast_stats_reset: "Stats data reset successfully.",
-    toast_vcard_download: "Starting contact (vCard) download."
+    toast_vcard_download: "Starting contact (vCard) download.",
+    biz_info_title: "Business & Account Info",
+    biz_cert_view: "View Certificate",
+    toast_copied_bank: "Bank account number copied."
   },
   zh: {
     name: "鄭燦喜",
@@ -172,7 +178,10 @@ const dictionary = {
     toast_metamask_connected: "MetaMask 钱包连接成功。",
     toast_exch_success: "名片已发送并存入保管库。",
     toast_stats_reset: "统计数据已成功重置。",
-    toast_vcard_download: "开始下载联系人 (vCard) 文件。"
+    toast_vcard_download: "开始下载联系人 (vCard) 文件。",
+    biz_info_title: "商业及账户信息",
+    biz_cert_view: "查看营业执照",
+    toast_copied_bank: "银行卡号已复制。"
   }
 };
 
@@ -192,6 +201,9 @@ const defaultCardData = {
   videoBase64: "",
   pdfUrl: "",
   proposalBase64: "",
+  bankAccount: "토스뱅크 1002-6623-4905 다나리",
+  bizCertUrl: "다나리사업자등록증.pdf",
+  bizCertBase64: "",
   projects: [
     { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
     { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
@@ -222,6 +234,7 @@ function loadCardData() {
             if (localData.profileBase64) activeCardData.profileBase64 = localData.profileBase64;
             if (localData.videoBase64) activeCardData.videoBase64 = localData.videoBase64;
             if (localData.proposalBase64) activeCardData.proposalBase64 = localData.proposalBase64;
+            if (localData.bizCertBase64) activeCardData.bizCertBase64 = localData.bizCertBase64;
             console.log("[Dynamic Card] Merged base64 media assets from local storage for the owner.");
           }
         } catch (err) {
@@ -314,6 +327,12 @@ function injectCardDataToDOM() {
   const walletAddr = document.getElementById('wallet-address');
   if (walletAddr) {
     walletAddr.innerText = activeCardData.wallet || '0x0000...0000';
+  }
+
+  // Bank Account
+  const bankAccountText = document.getElementById('bank-account');
+  if (bankAccountText) {
+    bankAccountText.innerText = activeCardData.bankAccount || '토스뱅크 1002-6623-4905 다나리';
   }
 
   // Projects
@@ -682,6 +701,38 @@ function setupEventListeners() {
       const addressText = document.getElementById('wallet-address').innerText;
       copyToClipboard(addressText);
       showToast('toast_copied_wallet');
+    });
+  }
+
+  // Bank account clipboard copy
+  const copyBankBtn = document.getElementById('copy-bank-btn');
+  if (copyBankBtn) {
+    copyBankBtn.addEventListener('click', () => {
+      const bankText = document.getElementById('bank-account').innerText;
+      copyToClipboard(bankText);
+      showToast('toast_copied_bank');
+    });
+  }
+
+  // View Business Certificate
+  const bizCertBtn = document.getElementById('biz-cert-btn');
+  if (bizCertBtn) {
+    bizCertBtn.addEventListener('click', () => {
+      const certBase64 = activeCardData.bizCertBase64;
+      const certUrl = activeCardData.bizCertUrl;
+      if (certBase64) {
+        const newTab = window.open();
+        if (newTab) {
+          newTab.document.write(`<iframe src="${certBase64}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
+        } else {
+          const link = document.createElement('a');
+          link.href = certBase64;
+          link.download = `다나리_사업자등록증.${certBase64.includes('pdf') ? 'pdf' : 'png'}`;
+          link.click();
+        }
+      } else {
+        window.open(certUrl || '다나리사업자등록증.pdf', '_blank');
+      }
     });
   }
 

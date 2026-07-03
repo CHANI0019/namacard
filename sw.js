@@ -1,4 +1,4 @@
-const CACHE_NAME = 'danari-card-v23';
+const CACHE_NAME = 'danari-card-v24';
 const ASSETS_TO_CACHE = [
   './',
   'index.html',
@@ -9,7 +9,8 @@ const ASSETS_TO_CACHE = [
   'manifest.json',
   'DNR.png',
   'icon.svg',
-  'proposal.pdf'
+  'proposal.pdf',
+  '다나리사업자등록증.pdf'
 ];
 
 // Install Event - Pre-cache assets
