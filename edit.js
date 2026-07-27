@@ -17,6 +17,7 @@ const defaultCardData = {
   bankAccount: "토스뱅크 1002-6623-4905 다나리",
   bizCertUrl: "다나리사업자등록증.pdf",
   bizCertBase64: "",
+  extraWebsites: [],
   projects: [ 
     { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
     { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
@@ -57,6 +58,16 @@ function readFormValuesToCurrentData() {
       desc: getVal(`input-p${i}-desc`)
     };
   }
+
+  currentData.extraWebsites = [];
+  const rows = document.querySelectorAll('.extra-web-row');
+  rows.forEach(row => {
+    const labelVal = row.querySelector('.extra-web-label')?.value.trim() || '';
+    const urlVal = row.querySelector('.extra-web-url')?.value.trim() || '';
+    if (urlVal) {
+      currentData.extraWebsites.push({ label: labelVal, url: urlVal });
+    }
+  });
 }
 
 function saveToLocalStorageSilently() {
@@ -119,6 +130,9 @@ function initFormValues() {
     document.getElementById(`input-p${i}-name`).value = proj.name || '';
     document.getElementById(`input-p${i}-desc`).value = proj.desc || '';
   }
+
+  // Extra Websites
+  renderExtraWebsitesForm();
 }
 
 // Bind live preview
@@ -411,6 +425,17 @@ function setupActionListeners() {
   if (copyLinkBtn) {
     copyLinkBtn.addEventListener('click', copyShareableLink);
   }
+
+  const addWebBtn = document.getElementById('btn-add-extra-website');
+  if (addWebBtn) {
+    addWebBtn.addEventListener('click', () => {
+      if (!currentData.extraWebsites) currentData.extraWebsites = [];
+      currentData.extraWebsites.push({ label: '', url: '' });
+      renderExtraWebsitesForm();
+      saveToLocalStorageSilently();
+      updatePreview();
+    });
+  }
 }
 
 // Update the full preview card once on load
@@ -453,6 +478,30 @@ function updatePreview() {
     const proj = currentData.projects[i] || { name: '', desc: '' };
     document.getElementById(`prev-p${i}-name`).innerText = proj.name || `프로젝트 ${i+1}`;
     document.getElementById(`prev-p${i}-desc`).innerText = proj.desc || `상세 설명이 나타납니다.`;
+  }
+
+  // Extra Websites preview
+  const prevExtraContainer = document.getElementById('prev-extra-websites-container');
+  if (prevExtraContainer) {
+    prevExtraContainer.innerHTML = '';
+    const extraList = currentData.extraWebsites || [];
+    extraList.forEach((site, idx) => {
+      if (site.url && site.url.trim()) {
+        const item = document.createElement('div');
+        item.className = 'info-item';
+        const labelText = site.label || `추가 웹사이트 ${idx + 1}`;
+        item.innerHTML = `
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+          </div>
+          <div class="info-details">
+            <span class="info-label">${escapeHTML(labelText)}</span>
+            <span class="info-value">${escapeHTML(site.url)}</span>
+          </div>
+        `;
+        prevExtraContainer.appendChild(item);
+      }
+    });
   }
 }
 
@@ -532,4 +581,59 @@ function showToast(message) {
     toast.classList.add('removing');
     toast.addEventListener('transitionend', () => toast.remove());
   }, 2700);
+}
+
+// Dynamic Extra Websites Form Renderer
+function renderExtraWebsitesForm() {
+  const container = document.getElementById('extra-websites-edit-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  if (!currentData.extraWebsites) currentData.extraWebsites = [];
+
+  currentData.extraWebsites.forEach((site, index) => {
+    const row = document.createElement('div');
+    row.className = 'extra-web-row';
+    row.style.cssText = 'display: flex; gap: 8px; align-items: center; background: rgba(15, 23, 42, 0.4); padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);';
+    row.innerHTML = `
+      <input type="text" class="extra-web-label" placeholder="라벨 (예: 공식 블로그)" value="${escapeHTML(site.label || '')}" style="width: 35%; flex: 0 0 35%;">
+      <input type="text" class="extra-web-url" placeholder="URL (예: blog.danari.co.kr)" value="${escapeHTML(site.url || '')}" style="flex: 1;">
+      <button type="button" class="btn-remove-extra-web" data-index="${index}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 12px; flex-shrink: 0;">삭제</button>
+    `;
+
+    const labelInp = row.querySelector('.extra-web-label');
+    const urlInp = row.querySelector('.extra-web-url');
+    const removeBtn = row.querySelector('.btn-remove-extra-web');
+
+    [labelInp, urlInp].forEach(inp => {
+      inp.addEventListener('input', () => {
+        site.label = labelInp.value.trim();
+        site.url = urlInp.value.trim();
+        saveToLocalStorageSilently();
+        updatePreview();
+      });
+    });
+
+    removeBtn.addEventListener('click', () => {
+      currentData.extraWebsites.splice(index, 1);
+      renderExtraWebsitesForm();
+      saveToLocalStorageSilently();
+      updatePreview();
+    });
+
+    container.appendChild(row);
+  });
+}
+
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.replace(/[&<>'"]/g, 
+    tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag] || tag)
+  );
 }

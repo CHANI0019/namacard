@@ -204,6 +204,7 @@ const defaultCardData = {
   bankAccount: "토스뱅크 1002-6623-4905 다나리",
   bizCertUrl: "다나리사업자등록증.pdf",
   bizCertBase64: "",
+  extraWebsites: [],
   projects: [
     { name: "DANARI AI", desc: "9인의 Agent가 실시간으로 주식 시장을 분석합니다." },
     { name: "DANARI AI Stock Auto Trading Bot", desc: "주식자동매매로봇" },
@@ -321,6 +322,38 @@ function injectCardDataToDOM() {
     } else {
       homepageContainer.style.display = 'none';
     }
+  }
+
+  // Extra Websites
+  const extraWebContainer = document.getElementById('info-extra-websites-container');
+  if (extraWebContainer) {
+    extraWebContainer.innerHTML = '';
+    const extraList = activeCardData.extraWebsites || [];
+    extraList.forEach((site, idx) => {
+      if (site.url && site.url.trim()) {
+        const item = document.createElement('div');
+        item.className = 'info-item';
+        const fullUrl = site.url.startsWith('http') ? site.url : `https://${site.url}`;
+        const labelText = site.label || `추가 웹사이트 ${idx + 1}`;
+        item.innerHTML = `
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+          </div>
+          <div class="info-details">
+            <span class="info-label">${escapeHTML(labelText)}</span>
+            <a href="${escapeHTML(fullUrl)}" target="_blank" rel="noopener noreferrer" class="info-value link-tracking" data-track="website">${escapeHTML(site.url)}</a>
+          </div>
+        `;
+        extraWebContainer.appendChild(item);
+      }
+    });
+
+    extraWebContainer.querySelectorAll('.link-tracking').forEach(el => {
+      el.addEventListener('click', () => {
+        const trackType = el.getAttribute('data-track');
+        incrementStat(trackType);
+      });
+    });
   }
 
   // MetaMask wallet address

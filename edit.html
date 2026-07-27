@@ -266,6 +266,15 @@
             <label for="input-bank-account">토스뱅크 계좌번호</label>
             <input type="text" id="input-bank-account" placeholder="예: 토스뱅크 1002-6623-4905 다나리">
           </div>
+          <div class="form-group form-full" style="grid-column: span 2; margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label style="margin: 0; font-weight: 600;">추가 웹사이트 목록 (블로그, SNS, 외부 링크 등)</label>
+              <button type="button" id="btn-add-extra-website" style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                + 웹사이트 추가
+              </button>
+            </div>
+            <div id="extra-websites-edit-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
+          </div>
         </div>
 
         <!-- Section 2.5: Additional Assets (Video & Proposal) -->
@@ -487,6 +496,7 @@
               <span class="info-value" id="prev-homepage"></span>
             </div>
           </div>
+          <div id="prev-extra-websites-container"></div>
         </div>
 
         <div class="quick-buttons">
