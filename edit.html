@@ -188,61 +188,83 @@
     /* Responsive */
     @media (max-width: 1024px) {
       body {
-        padding: 24px 16px;
+        padding: 12px 8px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
       }
       .editor-wrapper {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        width: 100%;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+      }
+      .form-container {
+        padding: 16px 10px !important;
+        border-radius: 18px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+      }
+      .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .form-full, .form-grid > * {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+      }
+      .secondary-actions {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
       .preview-container {
-        position: static;
-        order: 1; /* Show preview below form on mobile so form is visible first */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        margin-top: 20px;
-        box-sizing: border-box;
+        position: static !important;
+        order: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 20px !important;
+        box-sizing: border-box !important;
       }
       .preview-container .card-container {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        padding: 20px 14px !important;
-      }
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 12px 8px;
-      }
-      .form-container {
-        padding: 16px 12px;
-        border-radius: 20px;
-      }
-      .form-grid {
-        grid-template-columns: 1fr !important; /* Stack inputs vertically on mobile */
-        gap: 12px;
-      }
-      .form-full, .form-grid > * {
-        grid-column: 1 / -1 !important; /* Make all fields span full width of 1-column grid */
+        padding: 16px 12px !important;
       }
       .form-actions-bar .primary-action-btn {
-        font-size: 13px;
-        padding: 12px 8px;
-        text-align: center;
-        justify-content: center;
-        white-space: normal;
-        word-break: keep-all;
+        font-size: 13px !important;
+        padding: 12px 8px !important;
+        text-align: center !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        word-break: keep-all !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
       .form-actions-bar .secondary-action-btn {
-        font-size: 11px;
-        padding: 10px 4px;
-        text-align: center;
-        justify-content: center;
-        white-space: normal;
-        word-break: keep-all;
+        font-size: 11px !important;
+        padding: 10px 4px !important;
+        text-align: center !important;
+        justify-content: center !important;
+        white-space: normal !important;
+        word-break: keep-all !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
     }
   </style>

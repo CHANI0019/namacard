@@ -1116,6 +1116,19 @@ a.info-value:hover {
   font-family: var(--font-body);
   font-size: 13px;
   transition: var(--transition-fast);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .form-group input:focus {
