@@ -566,10 +566,15 @@ function initApp() {
     setLanguage(savedLang);
   }
 
-  // Check saved MetaMask session
+  // Check saved MetaMask session / user configured wallet
   const walletConnected = localStorage.getItem('danari_wallet_connected');
   const savedAddress = localStorage.getItem('danari_wallet_address');
-  if (walletConnected === 'true' && savedAddress) {
+  const configuredWallet = activeCardData.wallet;
+
+  if (configuredWallet) {
+    updateWalletUI(configuredWallet, walletConnected === 'true');
+    localStorage.setItem('danari_wallet_address', configuredWallet);
+  } else if (walletConnected === 'true' && savedAddress) {
     updateWalletUI(savedAddress, true);
   }
 
@@ -970,16 +975,16 @@ async function connectMetaMask() {
       }
     }
 
-    // Demonstration fallback flow
+    // Demonstration fallback flow using the user's configured card wallet address
     btn.innerText = 'Connecting...';
     btn.disabled = true;
     showToast('toast_metamask_demo');
 
     setTimeout(() => {
-      const demoAddress = '0x71C7656EC7ab88b098defB751B7401B5f6d1476B';
-      updateWalletUI(demoAddress, false);
+      const targetWallet = (activeCardData && activeCardData.wallet) ? activeCardData.wallet : '0x6E0cc95003240fD75270F9645B2cB6a32545Ea99';
+      updateWalletUI(targetWallet, false);
       localStorage.setItem('danari_wallet_connected', 'true');
-      localStorage.setItem('danari_wallet_address', demoAddress);
+      localStorage.setItem('danari_wallet_address', targetWallet);
       btn.disabled = false;
     }, 1000);
   }
@@ -987,10 +992,15 @@ async function connectMetaMask() {
 
 function updateWalletUI(address, isReal) {
   const connectBtn = document.getElementById('wallet-connect-btn');
+  const walletAddr = document.getElementById('wallet-address');
+
+  if (walletAddr && address) {
+    walletAddr.innerText = address;
+  }
 
   if (connectBtn) {
-    const formatted = `${address.slice(0, 6)}...${address.slice(-4)}`;
-    connectBtn.innerText = isReal ? `${formatted} 연결됨` : dictionary[currentLang].wallet_connect_demo;
+    const formatted = (address && address.length > 10) ? `${address.slice(0, 6)}...${address.slice(-4)}` : (address || '');
+    connectBtn.innerText = isReal ? `${formatted} 연결됨` : `${formatted} 연결됨`;
     connectBtn.classList.add('connected');
   }
 }
