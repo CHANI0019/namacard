@@ -594,11 +594,11 @@ function renderExtraWebsitesForm() {
   currentData.extraWebsites.forEach((site, index) => {
     const row = document.createElement('div');
     row.className = 'extra-web-row';
-    row.style.cssText = 'display: flex; gap: 8px; align-items: center; background: rgba(15, 23, 42, 0.4); padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);';
+    row.style.cssText = 'display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: rgba(15, 23, 42, 0.4); padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);';
     row.innerHTML = `
-      <input type="text" class="extra-web-label" placeholder="라벨 (예: 공식 블로그)" value="${escapeHTML(site.label || '')}" style="width: 35%; flex: 0 0 35%;">
-      <input type="text" class="extra-web-url" placeholder="URL (예: blog.danari.co.kr)" value="${escapeHTML(site.url || '')}" style="flex: 1;">
-      <button type="button" class="btn-remove-extra-web" data-index="${index}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 12px; flex-shrink: 0;">삭제</button>
+      <input type="text" class="extra-web-label" placeholder="라벨 (예: 공식 블로그)" value="${escapeHTML(site.label || '')}" style="flex: 1 1 120px; min-width: 100px;">
+      <input type="text" class="extra-web-url" placeholder="URL (예: blog.danari.co.kr)" value="${escapeHTML(site.url || '')}" style="flex: 2 1 150px; min-width: 130px;">
+      <button type="button" class="btn-remove-extra-web" data-index="${index}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 12px; flex-shrink: 0; margin-left: auto;">삭제</button>
     `;
 
     const labelInp = row.querySelector('.extra-web-label');

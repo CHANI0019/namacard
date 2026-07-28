@@ -76,10 +76,12 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .form-full {
-      grid-column: span 2;
+      grid-column: 1 / -1;
     }
 
     .form-actions-bar {
@@ -89,6 +91,8 @@
       gap: 12px;
       border-top: 1px solid rgba(255,255,255,0.08);
       padding-top: 20px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* Live Preview Section */
@@ -136,6 +140,9 @@
       background: rgba(15,23,42,0.4);
       padding: 3px;
       border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: auto;
     }
 
     .proj-tab-btn {
@@ -145,10 +152,12 @@
       color: var(--text-muted);
       font-size: 11px;
       font-weight: 600;
-      padding: 6px;
+      padding: 6px 2px;
       cursor: pointer;
       border-radius: 7px;
       transition: var(--transition-fast);
+      white-space: nowrap;
+      text-align: center;
     }
 
     .proj-tab-btn.active {
@@ -177,7 +186,7 @@
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       body {
         padding: 24px 16px;
       }
@@ -206,22 +215,22 @@
 
     @media (max-width: 600px) {
       body {
-        padding: 16px 10px;
+        padding: 12px 8px;
       }
       .form-container {
-        padding: 20px 14px;
+        padding: 16px 12px;
         border-radius: 20px;
       }
       .form-grid {
-        grid-template-columns: 1fr; /* Stack inputs vertically on mobile */
+        grid-template-columns: 1fr !important; /* Stack inputs vertically on mobile */
         gap: 12px;
       }
       .form-full, .form-grid > * {
-        grid-column: span 1 !important; /* Make all fields span full width of the 1-column grid */
+        grid-column: 1 / -1 !important; /* Make all fields span full width of 1-column grid */
       }
       .form-actions-bar .primary-action-btn {
         font-size: 13px;
-        padding: 12px 10px;
+        padding: 12px 8px;
         text-align: center;
         justify-content: center;
         white-space: normal;
@@ -229,9 +238,11 @@
       }
       .form-actions-bar .secondary-action-btn {
         font-size: 11px;
-        padding: 10px 6px;
+        padding: 10px 4px;
         text-align: center;
         justify-content: center;
+        white-space: normal;
+        word-break: keep-all;
       }
     }
   </style>
@@ -301,7 +312,7 @@
             <label for="input-bank-account">토스뱅크 계좌번호</label>
             <input type="text" id="input-bank-account" placeholder="예: 토스뱅크 1002-6623-4905 다나리">
           </div>
-          <div class="form-group form-full" style="grid-column: span 2; margin-top: 6px;">
+          <div class="form-group form-full" style="margin-top: 6px;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
               <label style="margin: 0; font-weight: 600;">추가 웹사이트 목록 (블로그, SNS, 외부 링크 등)</label>
               <button type="button" id="btn-add-extra-website" style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
@@ -339,7 +350,7 @@
             <label for="input-biz-cert-file">사업자등록증 직접 업로드 (이미지 또는 PDF, 최대 3MB)</label>
             <input type="file" id="input-biz-cert-file" accept="image/*,.pdf" style="font-size: 11px; padding: 4px 0; background: transparent; border: none; color: var(--text-muted);">
           </div>
-          <div class="form-group form-full" style="grid-column: span 2; margin-top: -6px;">
+          <div class="form-group form-full" style="margin-top: -6px;">
             <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 14px; border-radius: 12px; font-size: 11px; color: #f87171; line-height: 1.5;">
               <strong>⚠️ 공유용 링크 제약 참고:</strong> 로컬 이미지/동영상/PDF 파일을 직접 업로드하는 경우 데이터 크기가 매우 큽니다. 이는 브라우저의 웹 주소창 길이 제한을 초과하게 만들므로 <strong>[공유용 고유 링크 복사]</strong> 시 파일 데이터 자체는 링크에 포함되지 않습니다. 타인에게 완전히 공유하시려면 구글 드라이브나 유튜브, 웹 호스팅상의 <strong>다운로드 주소/링크(URL)</strong>를 입력할 것을 강력히 권장합니다.
             </div>
