@@ -35,8 +35,15 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html {
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-main);
@@ -44,13 +51,17 @@ html, body {
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  position: relative;
+@media (min-width: 769px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* Scrollbar styling */
@@ -98,8 +109,19 @@ body {
 }
 
 /* ==================== BACKGROUND GLOW BLOBS ==================== */
-.glow-bg-1, .glow-bg-2 {
+.glow-bg-wrapper {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-bg-1, .glow-bg-2 {
+  position: absolute;
   width: 400px;
   height: 400px;
   border-radius: 50%;
@@ -368,17 +390,25 @@ body {
   border-radius: 10px;
   padding: 8px 12px;
   border: 1px solid rgba(255,255,255,0.03);
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .address-text {
   font-family: monospace;
-  font-size: 13px;
+  font-size: 12px;
   color: #93c5fd;
   user-select: all;
   letter-spacing: 0.5px;
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  display: block;
 }
 
 .copy-btn {
@@ -450,6 +480,10 @@ body {
   padding: 8px 12px;
   border: 1px solid rgba(255,255,255,0.03);
   transition: border-color var(--transition-fast);
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .bank-box:hover {
